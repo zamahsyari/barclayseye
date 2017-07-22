@@ -15,6 +15,7 @@ import java.util.List;
 import zmachmobile.com.barclayseye.ButtonChild;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.activities.MapsActivity;
+import zmachmobile.com.barclayseye.activities.UberActivity;
 
 /**
  * Created by zmachmobile on 7/21/17.
@@ -45,6 +46,10 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.MyViewHold
                 vb.vibrate(100);
                 if(buttonChild.orderNum==1){
                     Intent intent=new Intent(context.getApplicationContext(), MapsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }else if(buttonChild.orderNum==2){
+                    Intent intent=new Intent(context.getApplicationContext(), UberActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
