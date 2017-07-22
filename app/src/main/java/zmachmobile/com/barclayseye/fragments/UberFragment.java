@@ -11,30 +11,29 @@ import android.widget.Button;
 
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.activities.MainActivity;
-import zmachmobile.com.barclayseye.activities.QuizActivity;
-
+import zmachmobile.com.barclayseye.activities.UberActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class KeepDistanceFragment extends Fragment {
-    Button btnStart;
+public class UberFragment extends Fragment {
     View view;
+    Button btnRequest;
 
-    public KeepDistanceFragment() {
+    public UberFragment() {
         // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_keep_distance, container, false);
-        btnStart=(Button)view.findViewById(R.id.btnStart);
-        btnStart.setOnClickListener(new View.OnClickListener() {
+        view=inflater.inflate(R.layout.fragment_uber, container, false);
+        btnRequest=(Button)view.findViewById(R.id.btnRequest);
+        btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity().getBaseContext(),QuizActivity.class);
-                intent.putExtra("extra","step2");
+                Intent intent=new Intent(getActivity().getBaseContext(),UberActivity.class);
+                intent.putExtra("extra","loading");
                 getActivity().startActivity(intent);
             }
         });

@@ -7,10 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,7 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
@@ -51,6 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         london= new LatLng(53.2835727000,-0.3338594000);
         sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
@@ -80,6 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.map_style));
         prepareData();
 
         // Add a marker in Sydney and move the camera
@@ -110,7 +109,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         waypoints.add(new LatLng(step.getDouble("end_lat"),step.getDouble("end_longi")));
                     }
                     polyline=mMap.addPolyline(waypoints);
-                    polyline.setColor(Color.parseColor("#0000ff"));
+                    polyline.setColor(Color.parseColor("#373f51"));
                     polyline.setStartCap(new RoundCap());
                     polyline.setEndCap(new RoundCap());
                     polyline.setWidth(50f);

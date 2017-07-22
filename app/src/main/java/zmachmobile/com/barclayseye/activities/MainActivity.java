@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         myToolbar = (Toolbar) findViewById(R.id.appBar);
         myToolbar.setTitle(R.string.app_name);
