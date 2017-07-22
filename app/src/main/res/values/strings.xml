@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BarclaysEye</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_welcome_quiz">Let\'s take a quiz to determine your visual guidance</string>
+    <string name="title_choose_mode">Choose an application usage mode</string>
+    <string name="desc_welcome_quiz">we will only test on your first time using this app</string>
+    <string name="asking_which_service">Hello, which Barclays service do you want to go to?</string>
+    <string name="found_nearest">Found 3 ATMs near you. Choose one you want to go to</string>
+    <string name="asking_travel">How do you want to go there?</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
