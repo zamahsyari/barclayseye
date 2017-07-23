@@ -3,6 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="60dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
     tools:context="zmachmobile.com.barclayseye.fragments.MainFragment">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/onRefresh"
@@ -12,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:padding="41dp"
+            android:paddingTop="41dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -37,6 +40,5 @@
         android:src="@drawable/microphone_black_shape"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
         android:padding="20dp" />
 </RelativeLayout>
