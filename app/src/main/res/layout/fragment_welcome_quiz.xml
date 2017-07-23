@@ -9,6 +9,7 @@
     tools:context="zmachmobile.com.barclayseye.fragments.WelcomeQuizFragment">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/onRefresh"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -19,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="wrap_content"
@@ -81,7 +82,7 @@
         android:text="1"
         android:textColor="#fff"
         android:textSize="50dp"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="245dp"
         android:layout_marginLeft="24dp"/>
     <TextView
         android:layout_width="match_parent"
@@ -89,7 +90,7 @@
         android:text="2"
         android:textColor="#437ea0"
         android:textSize="50dp"
-        android:layout_marginTop="307dp"
+        android:layout_marginTop="327dp"
         android:layout_marginLeft="24dp"/>
     <ImageButton
         android:id="@+id/btnSpeak"

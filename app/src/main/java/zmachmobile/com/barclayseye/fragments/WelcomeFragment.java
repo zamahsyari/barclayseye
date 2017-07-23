@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -34,44 +35,16 @@ public class WelcomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view=inflater.inflate(R.layout.fragment_welcome,container,false);
-        btnChoose=(Button)view.findViewById(R.id.btnChooseMode);
-
-        btnChoose.setOnClickListener(new View.OnClickListener() {
+        Handler handler=new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View view) {
-                Vibrator vb = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                vb.vibrate(100);
+            public void run() {
                 Intent intent=new Intent(getActivity().getBaseContext(),WelcomeActivity.class);
                 intent.putExtra("extra","move");
                 getActivity().startActivity(intent);
             }
-        });
-        getApiVersion();
+        },3000);
+        view=inflater.inflate(R.layout.fragment_welcome,container,false);
         return view;
-    }
-
-    private void getApiVersion() {
-        Call<Object> version=ApiBuilder.getService().getVersion();
-        version.enqueue(new Callback<Object>() {
-
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                Gson gson=new Gson();
-                String resp=gson.toJson(response.body());
-                try {
-                    JSONObject obj=new JSONObject(resp);
-                    Log.i("RESULT","VERSION : "+obj.getString("version")+", STATE : "+obj.getString("state")+", YEAR : "+obj.getString("year"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
-        });
     }
 }

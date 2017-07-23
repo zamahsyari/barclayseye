@@ -49,8 +49,6 @@ public class QuizActivity extends AppCompatActivity {
             }else if(extra.equals("step3")){
                 fragmentTransaction.replace(R.id.fragmentContainer, answerFragment);
                 fragmentTransaction.commit();
-            }else if(extra.equals("skip")){
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
         }catch (Exception e){
             Log.e("ERROR",e.toString());

@@ -69,8 +69,7 @@ public class WelcomeQuizFragment extends Fragment {
             public void onClick(View view) {
                 Vibrator vb = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 vb.vibrate(100);
-                Intent intent=new Intent(getActivity().getBaseContext(),QuizActivity.class);
-                intent.putExtra("extra","skip");
+                Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
                 startActivity(intent);
             }
         });
