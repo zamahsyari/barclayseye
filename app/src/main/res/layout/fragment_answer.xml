@@ -110,7 +110,7 @@
         </LinearLayout>
     </LinearLayout>
     <Button
-        android:id="@+id/btnAnswer"
+        android:id="@+id/btnNotsure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Not sure"

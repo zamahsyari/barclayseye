@@ -3,24 +3,25 @@ package zmachmobile.com.barclayseye.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import zmachmobile.com.barclayseye.Global;
 import zmachmobile.com.barclayseye.R;
-import zmachmobile.com.barclayseye.activities.FinalActivity;
-import zmachmobile.com.barclayseye.activities.UberActivity;
+import zmachmobile.com.barclayseye.activities.MainActivity;
+import zmachmobile.com.barclayseye.activities.QuizActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UberLoadingFragment extends Fragment {
+public class FinalQuizFragment extends Fragment {
+    View view;
+    Button btnStart;
 
-
-    public UberLoadingFragment() {
+    public FinalQuizFragment() {
         // Required empty public constructor
     }
 
@@ -32,15 +33,16 @@ public class UberLoadingFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Handler handler=new Handler();
-        handler.postDelayed(new Runnable() {
+        view=inflater.inflate(R.layout.fragment_final_quiz, container, false);
+        btnStart=(Button)view.findViewById(R.id.btnStart);
+        btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                Intent intent=new Intent(getActivity().getBaseContext(),FinalActivity.class);
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
                 getActivity().startActivity(intent);
             }
-        },5000);
-        return inflater.inflate(R.layout.fragment_uber_loading, container, false);
+        });
+        return view;
     }
 
 }

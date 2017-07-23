@@ -30,6 +30,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 import zmachmobile.com.barclayseye.ButtonChild;
+import zmachmobile.com.barclayseye.Global;
 import zmachmobile.com.barclayseye.activities.MainActivity;
 import zmachmobile.com.barclayseye.activities.QuizActivity;
 import zmachmobile.com.barclayseye.R;
@@ -40,7 +41,6 @@ import static android.app.Activity.RESULT_OK;
 public class ChooseModeFragment extends Fragment {
     View view;
     ImageButton btnSpeak;
-    TextToSpeech tts;
     final int REQ_CODE_SPEECH_INPUT=100;
 
     List<ButtonChild> buttonChildList=new ArrayList<>();
@@ -56,6 +56,11 @@ public class ChooseModeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        try{
+            Global.textToSpeech.shutdown();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         view=inflater.inflate(R.layout.fragment_choose_mode, container, false);
         btnSpeak=view.findViewById(R.id.btnSpeak);
 
@@ -72,13 +77,13 @@ public class ChooseModeFragment extends Fragment {
 
         voiceInput="Welcome, please select application usage mode. 1. Voice guidance. 2. Visual and voice guidance. Please say the number after beep.";
         voiceTry="We didn't get that, please try again";
-        tts = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
+        Global.textToSpeech = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.UK);
+                    Global.textToSpeech.setLanguage(Locale.UK);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        tts.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                        Global.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                     }
                 }
             }
@@ -98,7 +103,7 @@ public class ChooseModeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tts.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                    Global.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                 }
                 afterSpeech();
 
@@ -108,7 +113,7 @@ public class ChooseModeFragment extends Fragment {
     }
 
     public void afterSpeech(){
-        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+        Global.textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String s) {
 
@@ -166,7 +171,7 @@ public class ChooseModeFragment extends Fragment {
                         getActivity().startActivity(intent);
                     }else{
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            tts.speak(voiceTry,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                            Global.textToSpeech.speak(voiceTry,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                         }
                         afterSpeech();
                     }

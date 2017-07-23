@@ -14,4 +14,6 @@
     <string name="title_final">Congratulations, you have reached your destination!</string>
     <string name="asking_question">What did you see?</string>
     <string name="title_request_uber">Requesting Uber</string>
+    <string name="title_final_quiz">Yay! You have finished the Visual Guidance Quiz</string>
+    <string name="desc_final_quiz">Your quiz results will define the display mode for your experience with us. But don’t worry, you can change it anytime!</string>
 </resources>

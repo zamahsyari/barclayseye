@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import java.util.Locale;
 
+import zmachmobile.com.barclayseye.Global;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.fragments.ChooseModeFragment;
 import zmachmobile.com.barclayseye.fragments.MainFragment;
@@ -37,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
+
+        try{
+            Global.textToSpeech.shutdown();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         myToolbar = (Toolbar) findViewById(R.id.appBar);
         myToolbar.setTitle(R.string.app_name);

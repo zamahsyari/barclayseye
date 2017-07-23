@@ -44,7 +44,11 @@ public class UsageModeAdapter extends RecyclerView.Adapter<UsageModeAdapter.MyVi
             public void onClick(View view) {
                 Vibrator vb = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
                 vb.vibrate(100);
-                if(buttonChild.orderNum==2){
+                if(buttonChild.orderNum==1){
+                    Intent intent=new Intent(context, QuizActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }else if(buttonChild.orderNum==2){
                     Intent intent=new Intent(context, QuizActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import zmachmobile.com.barclayseye.ApiBuilder;
 import zmachmobile.com.barclayseye.ButtonChild;
+import zmachmobile.com.barclayseye.Global;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.adapters.ChooseServiceAdapter;
 import zmachmobile.com.barclayseye.adapters.NearestAdapter;
@@ -47,6 +48,11 @@ public class NearestFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        try{
+            Global.textToSpeech.shutdown();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         view=inflater.inflate(R.layout.fragment_nearest, container, false);
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
 

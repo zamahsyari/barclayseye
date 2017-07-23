@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import zmachmobile.com.barclayseye.Global;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.fragments.MainFragment;
 import zmachmobile.com.barclayseye.fragments.NearestFragment;
@@ -31,6 +32,12 @@ public class UberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uber);
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
+
+        try{
+            Global.textToSpeech.shutdown();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         myToolbar = (Toolbar) findViewById(R.id.appBar);
         myToolbar.setTitle(R.string.app_name);
