@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.activities.MainActivity;
+import zmachmobile.com.barclayseye.activities.QuizActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +29,7 @@ public class QuestionFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
+                Intent intent=new Intent(getActivity().getBaseContext(),QuizActivity.class);
                 intent.putExtra("extra","step3");
                 getActivity().startActivity(intent);
             }

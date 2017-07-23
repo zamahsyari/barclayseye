@@ -118,10 +118,10 @@ public class ChooseModeFragment extends Fragment {
     }
 
     private void prepareData() {
-        ButtonChild buttonChild=new ButtonChild(1,"Full voice assistance",null,null);
+        ButtonChild buttonChild=new ButtonChild(1,"Voice guidance",null,null);
         buttonChildList.add(buttonChild);
 
-        buttonChild=new ButtonChild(2,"Full visual guidance",null,null);
+        buttonChild=new ButtonChild(2,"Visual and Voice Guidance",null,null);
         buttonChildList.add(buttonChild);
 
         usageModeAdapter.notifyDataSetChanged();

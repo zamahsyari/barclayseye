@@ -1,5 +1,6 @@
 package zmachmobile.com.barclayseye.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -7,6 +8,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,7 +36,7 @@ import retrofit2.Response;
 import zmachmobile.com.barclayseye.ApiBuilder;
 import zmachmobile.com.barclayseye.R;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,SensorEventListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,SensorEventListener {
 
     private GoogleMap mMap;
     private SensorManager sensorManager;
@@ -43,12 +48,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     float[] iMat = new float[9];
     float[] orientation = new float[3];
     private float bearing;
+    Toolbar myToolbar;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
+
+        myToolbar = (Toolbar) findViewById(R.id.appBar);
+        myToolbar.setTitle(R.string.app_name);
+        setSupportActionBar(myToolbar);
+
+        actionBar=getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         london= new LatLng(53.2835727000,-0.3338594000);
         sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
@@ -173,5 +187,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if(id==android.R.id.home){
+            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+            intent.putExtra("extra","travel");
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

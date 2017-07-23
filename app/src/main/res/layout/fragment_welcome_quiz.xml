@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="60dp"
     android:background="@drawable/bg_app"
     tools:context="zmachmobile.com.barclayseye.fragments.WelcomeQuizFragment">
     <LinearLayout
@@ -48,22 +50,42 @@
             android:textSize="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:paddingLeft="79dp"
+            android:gravity="start"
             android:background="@drawable/bg_btn"/>
         <Button
             android:id="@+id/btnSkip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Skip this"
-            android:textColor="#0074a6"
+            android:text="Skip this quiz"
+            android:textColor="#437ea0"
             android:textAllCaps="false"
             android:textSize="20dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:paddingLeft="79dp"
+            android:gravity="start"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_btn_invert"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="1"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        android:layout_marginTop="225dp"
+        android:layout_marginLeft="24dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="2"
+        android:textColor="#437ea0"
+        android:textSize="50dp"
+        android:layout_marginTop="307dp"
+        android:layout_marginLeft="24dp"/>
     <ImageButton
         android:id="@+id/btnSpeak"
         android:layout_width="100dp"
@@ -72,5 +94,6 @@
         android:src="@drawable/microphone_black_shape"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
         android:padding="20dp" />
 </RelativeLayout>

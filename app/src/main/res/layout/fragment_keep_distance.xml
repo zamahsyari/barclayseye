@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:padding="16dp"
     android:background="@color/colorPrimary"
     tools:context="zmachmobile.com.barclayseye.fragments.KeepDistanceFragment">
     <LinearLayout
@@ -24,19 +24,17 @@
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
             android:text="Keep an arm distance of 50cm"/>
-        <Button
-            android:id="@+id/btnStart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:background="@drawable/bg_btn_yellow"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:textSize="20dp"
-            android:text="Let's start !"/>
     </LinearLayout>
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:background="@drawable/bg_btn_yellow"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:text="Let's start !"/>
 </RelativeLayout>

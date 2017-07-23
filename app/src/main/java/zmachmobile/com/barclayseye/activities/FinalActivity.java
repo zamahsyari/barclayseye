@@ -1,48 +1,30 @@
 package zmachmobile.com.barclayseye.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zmachmobile.com.barclayseye.ButtonChild;
 import zmachmobile.com.barclayseye.R;
-import zmachmobile.com.barclayseye.adapters.FinalAdapter;
-import zmachmobile.com.barclayseye.adapters.UsageModeAdapter;
 
 public class FinalActivity extends AppCompatActivity {
-    List<ButtonChild> buttonChildList=new ArrayList<>();
-    RecyclerView recyclerView;
-    FinalAdapter finalAdapter;
-
+    Button btnBackHome, btnBarclays;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final);
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        btnBackHome=(Button)findViewById(R.id.btnBackHome);
+        btnBarclays=(Button)findViewById(R.id.btnBarclays);
 
-        finalAdapter=new FinalAdapter(getApplicationContext(),buttonChildList);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(finalAdapter);
-
-        prepareData();
-    }
-
-    private void prepareData() {
-        ButtonChild buttonChild=new ButtonChild(1,"back to Homepage",null,null);
-        buttonChildList.add(buttonChild);
-
-        buttonChild=new ButtonChild(2,"Browse Barclays Products",null,null);
-        buttonChildList.add(buttonChild);
-
-        finalAdapter.notifyDataSetChanged();
+        btnBackHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
