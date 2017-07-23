@@ -7,69 +7,74 @@
     android:paddingTop="60dp"
     android:background="@drawable/bg_app"
     tools:context="zmachmobile.com.barclayseye.fragments.WelcomeQuizFragment">
-    <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/onRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/plane_spark"/>
-            <ImageView
-                android:layout_width="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                android:src="@drawable/paper_plane"/>
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/plane_spark"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/paper_plane"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:text="@string/title_welcome_quiz"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:textSize="16dp"
+                android:text="@string/desc_welcome_quiz"/>
+            <Button
+                android:id="@+id/btnTakeQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Take quiz"
+                android:textColor="#fff"
+                android:textAllCaps="false"
+                android:textSize="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:paddingLeft="79dp"
+                android:gravity="start"
+                android:background="@drawable/bg_btn"/>
+            <Button
+                android:id="@+id/btnSkip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Skip this quiz"
+                android:textColor="#437ea0"
+                android:textAllCaps="false"
+                android:textSize="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:paddingLeft="79dp"
+                android:gravity="start"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_btn_invert"/>
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="#fff"
-            android:textStyle="bold"
-            android:text="@string/title_welcome_quiz"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:textSize="16dp"
-            android:text="@string/desc_welcome_quiz"/>
-        <Button
-            android:id="@+id/btnTakeQuiz"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Take quiz"
-            android:textColor="#fff"
-            android:textAllCaps="false"
-            android:textSize="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:paddingLeft="79dp"
-            android:gravity="start"
-            android:background="@drawable/bg_btn"/>
-        <Button
-            android:id="@+id/btnSkip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Skip this quiz"
-            android:textColor="#437ea0"
-            android:textAllCaps="false"
-            android:textSize="20dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:paddingLeft="79dp"
-            android:gravity="start"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_btn_invert"/>
-    </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

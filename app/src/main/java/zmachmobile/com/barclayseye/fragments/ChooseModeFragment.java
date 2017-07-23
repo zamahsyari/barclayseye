@@ -11,6 +11,7 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.menu.ListMenuItemView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,6 +47,9 @@ public class ChooseModeFragment extends Fragment {
     RecyclerView recyclerView;
     UsageModeAdapter usageModeAdapter;
 
+    SwipeRefreshLayout onRefresh;
+    String voiceInput,voiceTry;
+
     public ChooseModeFragment() {
         // Required empty public constructor
     }
@@ -56,6 +60,7 @@ public class ChooseModeFragment extends Fragment {
         btnSpeak=view.findViewById(R.id.btnSpeak);
 
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+        onRefresh=(SwipeRefreshLayout)view.findViewById(R.id.onRefresh);
 
         usageModeAdapter=new UsageModeAdapter(getActivity().getBaseContext(),buttonChildList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity().getBaseContext());
@@ -65,17 +70,44 @@ public class ChooseModeFragment extends Fragment {
 
         prepareData();
 
+        voiceInput="Welcome, please select application usage mode. 1. Voice guidance. 2. Visual and voice guidance. Please say the number after beep.";
+        voiceTry="We didn't get that, please try again";
         tts = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
                     tts.setLanguage(Locale.UK);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        tts.speak("Welcome, please select application usage mode. 1. Full voice assistance. 2. Full visual guidance. Please say the number after beep.",TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                        tts.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                     }
                 }
             }
         });
+        afterSpeech();
+
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Vibrator vb = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                vb.vibrate(100);
+                startVoiceInput();
+            }
+        });
+
+        onRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tts.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                }
+                afterSpeech();
+
+            }
+        });
+        return view;
+    }
+
+    public void afterSpeech(){
         tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String s) {
@@ -94,16 +126,7 @@ public class ChooseModeFragment extends Fragment {
 
             }
         });
-
-        btnSpeak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Vibrator vb = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                vb.vibrate(100);
-                startVoiceInput();
-            }
-        });
-        return view;
+        onRefresh.setRefreshing(false);
     }
 
     private void startVoiceInput() {
@@ -135,33 +158,23 @@ public class ChooseModeFragment extends Fragment {
                 if(resultCode==RESULT_OK && null != data){
                     ArrayList<String> result=data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     Toast.makeText(getActivity().getBaseContext(),result.get(0),Toast.LENGTH_SHORT).show();
-                    if(result.get(0).equals("two")){
+                    if(result.get(0).equals("one")){
+                        Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
+                        getActivity().startActivity(intent);
+                    }else if(result.get(0).equals("two")){
                         Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
                         getActivity().startActivity(intent);
                     }else{
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            tts.speak("We didn't get that, please try again",TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                            tts.speak(voiceTry,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                         }
-                        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                            @Override
-                            public void onStart(String s) {
-
-                            }
-
-                            @Override
-                            public void onDone(String s) {
-                                startVoiceInput();
-                            }
-
-                            @Override
-                            public void onError(String s) {
-
-                            }
-                        });
+                        afterSpeech();
                     }
                 }
             }
             break;
         }
     }
+
+
 }

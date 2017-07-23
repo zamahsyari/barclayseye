@@ -1,19 +1,26 @@
 package zmachmobile.com.barclayseye.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,6 +47,10 @@ public class MainFragment extends Fragment {
     TextToSpeech tts;
     final int REQ_CODE_SPEECH_INPUT=100;
 
+    SwipeRefreshLayout onRefresh;
+    String voiceInput,voiceTry;
+    ImageButton btnSpeak;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -50,6 +61,9 @@ public class MainFragment extends Fragment {
         view=inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
 
+        onRefresh=(SwipeRefreshLayout)view.findViewById(R.id.onRefresh);
+        btnSpeak=(ImageButton) view.findViewById(R.id.btnSpeak);
+
         chooseServiceAdapter=new ChooseServiceAdapter(getActivity().getBaseContext(),buttonChildList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity().getBaseContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -58,33 +72,64 @@ public class MainFragment extends Fragment {
 
         prepareData();
 
+        voiceInput="Which Barclays service do you want to go to? 1. ATM. 2. Branch. Please say the number after beep.";
+        voiceTry="We didn't get that, please try again";
         tts = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
                     tts.setLanguage(Locale.UK);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        tts.speak("Which Barclays service do you want to go to? 1. ATM. 2. Branch. Please say the number after beep. BEEP",TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                        tts.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                     }
                 }
             }
         });
+        afterSpeech();
+
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Vibrator vb = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                vb.vibrate(100);
+                startVoiceInput();
+            }
+        });
+
+        onRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tts.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                }
+                afterSpeech();
+
+            }
+        });
+
+        return view;
+    }
+
+    public void afterSpeech(){
         tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String s) {
+
             }
 
             @Override
             public void onDone(String s) {
+                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC,ToneGenerator.MAX_VOLUME);
+                toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP,150);
                 startVoiceInput();
             }
 
             @Override
             public void onError(String s) {
+
             }
         });
-
-        return view;
+        onRefresh.setRefreshing(false);
     }
 
     private void prepareData() {
@@ -126,24 +171,9 @@ public class MainFragment extends Fragment {
                         getActivity().startActivity(intent);
                     }else{
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            tts.speak("We didn't get that, please try again",TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                            tts.speak(voiceTry,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                         }
-                        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                            @Override
-                            public void onStart(String s) {
-
-                            }
-
-                            @Override
-                            public void onDone(String s) {
-                                startVoiceInput();
-                            }
-
-                            @Override
-                            public void onError(String s) {
-
-                            }
-                        });
+                        afterSpeech();
                     }
                 }
             }
