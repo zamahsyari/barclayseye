@@ -19,9 +19,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import zmachmobile.com.barclayseye.ApiBuilder;
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
-import zmachmobile.com.barclayseye.activities.MainActivity;
 import zmachmobile.com.barclayseye.activities.UberActivity;
 
 /**
@@ -40,7 +39,7 @@ public class UberFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }

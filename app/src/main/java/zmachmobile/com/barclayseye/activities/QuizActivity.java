@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.fragments.AnswerFragment;
 import zmachmobile.com.barclayseye.fragments.FinalQuizFragment;
@@ -25,7 +25,7 @@ public class QuizActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }

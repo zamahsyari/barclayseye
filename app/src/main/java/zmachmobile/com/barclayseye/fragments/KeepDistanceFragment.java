@@ -9,15 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
 import zmachmobile.com.barclayseye.Answer;
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.Question;
 import zmachmobile.com.barclayseye.R;
-import zmachmobile.com.barclayseye.activities.MainActivity;
 import zmachmobile.com.barclayseye.activities.QuizActivity;
 
 
@@ -36,13 +33,13 @@ public class KeepDistanceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }
         view=inflater.inflate(R.layout.fragment_keep_distance, container, false);
         btnStart=(Button)view.findViewById(R.id.btnStart);
-        Global.questions=new ArrayList<Question>();
+        Config.questions=new ArrayList<Question>();
 
         addQuestions();
 
@@ -63,42 +60,42 @@ public class KeepDistanceFragment extends Fragment {
         Answer optC=new Answer("C",180);
         Answer optD=new Answer("C",270);
         Question question=new Question("C","#696969",32,270,4,optA,optB,optC,optD);
-        Global.questions.add(question);
+        Config.questions.add(question);
 
         optA=new Answer("C",0);
         optB=new Answer("C",90);
         optC=new Answer("C",180);
         optD=new Answer("C",270);
         question=new Question("C","#8f8f8f",32,180,3,optA,optB,optC,optD);
-        Global.questions.add(question);
+        Config.questions.add(question);
 
         optA=new Answer("C",0);
         optB=new Answer("C",90);
         optC=new Answer("C",180);
         optD=new Answer("C",270);
         question=new Question("C","#b4b4b4",32,0,1,optA,optB,optC,optD);
-        Global.questions.add(question);
+        Config.questions.add(question);
 
         optA=new Answer("P",0);
         optB=new Answer("G",0);
         optC=new Answer("D",0);
         optD=new Answer("O",0);
         question=new Question("G","#696969",20,0,2,optA,optB,optC,optD);
-        Global.questions.add(question);
+        Config.questions.add(question);
 
         optA=new Answer("W",0);
         optB=new Answer("B",0);
         optC=new Answer("D",0);
         optD=new Answer("M",0);
         question=new Question("M","#696969",26,0,4,optA,optB,optC,optD);
-        Global.questions.add(question);
+        Config.questions.add(question);
 
         optA=new Answer("C",0);
         optB=new Answer("R",0);
         optC=new Answer("D",0);
         optD=new Answer("P",0);
         question=new Question("P","#696969",32,0,4,optA,optB,optC,optD);
-        Global.questions.add(question);
+        Config.questions.add(question);
     }
 
 }

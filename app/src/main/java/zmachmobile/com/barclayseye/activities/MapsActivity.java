@@ -6,7 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import zmachmobile.com.barclayseye.ApiBuilder;
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,SensorEventListener {
@@ -62,7 +61,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -14,9 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zmachmobile.com.barclayseye.ButtonChild;
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
-import zmachmobile.com.barclayseye.adapters.NearestAdapter;
 import zmachmobile.com.barclayseye.adapters.TravelAdapter;
 
 /**
@@ -35,7 +34,7 @@ public class TravelFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }

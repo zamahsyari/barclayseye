@@ -12,27 +12,22 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.view.menu.ListMenuItemView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import zmachmobile.com.barclayseye.ButtonChild;
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.activities.MainActivity;
-import zmachmobile.com.barclayseye.activities.QuizActivity;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.adapters.UsageModeAdapter;
 
@@ -57,7 +52,7 @@ public class ChooseModeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -77,13 +72,13 @@ public class ChooseModeFragment extends Fragment {
 
         voiceInput="Welcome, please select application usage mode. 1. Voice guidance. 2. Visual and voice guidance. Please say the number after beep.";
         voiceTry="We didn't get that, please try again";
-        Global.textToSpeech = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
+        Config.textToSpeech = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
-                    Global.textToSpeech.setLanguage(Locale.UK);
+                    Config.textToSpeech.setLanguage(Locale.UK);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Global.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                        Config.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                     }
                 }
             }
@@ -103,7 +98,7 @@ public class ChooseModeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Global.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                    Config.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                 }
                 afterSpeech();
 
@@ -113,7 +108,7 @@ public class ChooseModeFragment extends Fragment {
     }
 
     public void afterSpeech(){
-        Global.textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+        Config.textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String s) {
 
@@ -171,7 +166,7 @@ public class ChooseModeFragment extends Fragment {
                         getActivity().startActivity(intent);
                     }else{
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Global.textToSpeech.speak(voiceTry,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                            Config.textToSpeech.speak(voiceTry,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
                         }
                         afterSpeech();
                     }
@@ -180,6 +175,5 @@ public class ChooseModeFragment extends Fragment {
             break;
         }
     }
-
 
 }

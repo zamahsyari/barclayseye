@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.Question;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.activities.QuizActivity;
@@ -33,7 +33,7 @@ public class AnswerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -91,7 +91,7 @@ public class AnswerFragment extends Fragment {
     }
 
     private void loadData() {
-        Question question= Global.questions.get(Global.currentQuestion-1);
+        Question question= Config.questions.get(Config.currentQuestion-1);
         txtOptA.setText(question.optA.answer);
         txtOptA.setRotation(question.optA.rotation);
 

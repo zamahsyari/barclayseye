@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 
 public class FinalActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class FinalActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }

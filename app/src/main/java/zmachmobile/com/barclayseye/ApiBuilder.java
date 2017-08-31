@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiBuilder{
     public static ApiService getService(){
         Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl(Global.baseUrl)
+                .baseUrl(Config.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiService service = retrofit.create(ApiService.class);

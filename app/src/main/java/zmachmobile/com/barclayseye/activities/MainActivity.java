@@ -1,7 +1,6 @@
 package zmachmobile.com.barclayseye.activities;
 
 import android.content.Intent;
-import android.speech.tts.TextToSpeech;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -10,18 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import java.util.Locale;
-
-import zmachmobile.com.barclayseye.Global;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.fragments.ChooseModeFragment;
 import zmachmobile.com.barclayseye.fragments.MainFragment;
 import zmachmobile.com.barclayseye.fragments.NearestFragment;
 import zmachmobile.com.barclayseye.fragments.TravelFragment;
-import zmachmobile.com.barclayseye.fragments.WelcomeFragment;
 
 public class MainActivity extends AppCompatActivity {
     Intent intent;
@@ -31,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     MainFragment mainFragment;
     NearestFragment nearestFragment;
     TravelFragment travelFragment;
+    ChooseModeFragment chooseModeFragment;
     Toolbar myToolbar;
 
     @Override
@@ -40,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         try{
-            Global.textToSpeech.shutdown();
+            Config.textToSpeech.shutdown();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -54,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+
         mainFragment= new MainFragment();
         nearestFragment=new NearestFragment();
         travelFragment=new TravelFragment();
@@ -64,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
             intent=getIntent();
             extra=intent.getStringExtra("extra");
             Log.i("extra",extra);
-            if(extra.equals("nearest")){
+            if(extra.equals("choose")){
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                fragmentTransaction.replace(R.id.fragmentContainer,chooseModeFragment);
+                fragmentTransaction.commit();
+            }else if(extra.equals("nearest")){
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 fragmentTransaction.replace(R.id.fragmentContainer,nearestFragment);
                 fragmentTransaction.commit();
@@ -94,5 +94,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
