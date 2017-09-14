@@ -45,45 +45,70 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="150dp"
         android:orientation="vertical">
         <LinearLayout
-            android:background="@drawable/bg_list_upper_dark"
-            android:paddingTop="8dp"
-            android:paddingLeft="24dp"
-            android:paddingBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/icon_close"/>
+            android:gravity="center_horizontal">
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:layout_marginBottom="-8dp"
+                android:background="@drawable/bg_pull">
+                <ImageView
+                    android:id="@+id/pullArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:src="@drawable/chevron_up"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:background="@drawable/bg_list_upper_dark"
+                android:paddingTop="8dp"
+                android:paddingLeft="24dp"
+                android:paddingBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="80dp"
-                android:orientation="vertical">
-                <TextView
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="80dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15 mins"
+                        android:textColor="#fff"
+                        android:textSize="24dp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:textSize="20dp"
+                        android:text="Arrive at 9:03 AM"/>
+                </LinearLayout>
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15 mins"
-                    android:textColor="#fff"
-                    android:textSize="24dp"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fff"
-                    android:textSize="20dp"
-                    android:text="Arrive at 9:03 AM"/>
+                    android:layout_marginLeft="-50dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/icon_walking"/>
             </LinearLayout>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-50dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/icon_walking"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

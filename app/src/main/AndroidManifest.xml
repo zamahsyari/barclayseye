@@ -19,10 +19,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.WelcomeActivity" android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.QuizActivity">
         </activity>
@@ -40,7 +36,12 @@
 
         <activity
             android:name=".activities.MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.UberActivity" />
         <activity android:name=".activities.FinalActivity"></activity>
     </application>

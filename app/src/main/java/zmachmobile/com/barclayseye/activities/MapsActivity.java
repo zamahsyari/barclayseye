@@ -9,8 +9,13 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,12 +37,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import zmachmobile.com.barclayseye.ApiBuilder;
+import zmachmobile.com.barclayseye.ButtonChild;
 import zmachmobile.com.barclayseye.Config;
+import zmachmobile.com.barclayseye.MapChild;
 import zmachmobile.com.barclayseye.R;
+import zmachmobile.com.barclayseye.adapters.MapAdapter;
+import zmachmobile.com.barclayseye.adapters.NearestAdapter;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,SensorEventListener {
 
@@ -53,11 +65,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private float bearing;
     Toolbar myToolbar;
     ActionBar actionBar;
+    private ImageView pullArrow;
+    private boolean isVisible=false;
+
+    List<MapChild> mapChildList=new ArrayList<>();
+    RecyclerView recyclerView;
+    MapAdapter mapAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        pullArrow=(ImageView)findViewById(R.id.pullArrow);
+
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         try{
@@ -85,6 +107,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mapAdapter=new MapAdapter(mapChildList);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mapAdapter);
+        recyclerView.setVisibility(View.GONE);
+
+        pullArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isVisible==false){
+                    pullArrow.setImageResource(R.drawable.chevron_down);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    isVisible=true;
+                }else {
+                    recyclerView.setVisibility(View.GONE);
+                    pullArrow.setImageResource(R.drawable.chevron_up);
+                    isVisible = false;
+                }
+            }
+        });
     }
 
     @Override
@@ -124,7 +168,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         JSONObject step=steps.getJSONObject(i);
                         waypoints.add(new LatLng(step.getDouble("start_lat"),step.getDouble("start_longi")));
                         waypoints.add(new LatLng(step.getDouble("end_lat"),step.getDouble("end_longi")));
+
+                        mapChildList.add(new MapChild(step.getString("distance"),step.getString("instruction")));
                     }
+                    mapAdapter.notifyDataSetChanged();
+
                     polyline=mMap.addPolyline(waypoints);
                     polyline.setColor(Color.parseColor("#373f51"));
                     polyline.setStartCap(new RoundCap());
@@ -134,13 +182,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destination,10));
 
-                    CameraPosition cameraPosition = new CameraPosition.Builder()
-                            .target(london)
-                            .zoom(10)
-                            .bearing(bearing)
-                            .tilt(90)
-                            .build();
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//                    CameraPosition cameraPosition = new CameraPosition.Builder()
+//                            .target(london)
+//                            .zoom(10)
+//                            .bearing(bearing)
+//                            .tilt(0)
+//                            .build();
+//                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -174,10 +222,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .target(london)
                 .zoom(10)
                 .bearing(bearing)
-                .tilt(90)
+                .tilt(0)
                 .build();
         if(mMap!=null){
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
     }
 

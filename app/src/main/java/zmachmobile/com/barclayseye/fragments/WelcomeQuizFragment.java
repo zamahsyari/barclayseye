@@ -46,7 +46,7 @@ public class WelcomeQuizFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try{
             Config.textToSpeech.shutdown();
         }catch (Exception e){
@@ -74,6 +74,7 @@ public class WelcomeQuizFragment extends Fragment {
                 Vibrator vb = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 vb.vibrate(100);
                 Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
+                intent.putExtra("extra","main");
                 startActivity(intent);
             }
         });

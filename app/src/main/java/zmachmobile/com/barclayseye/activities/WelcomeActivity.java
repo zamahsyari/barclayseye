@@ -31,7 +31,6 @@ public class WelcomeActivity extends AppCompatActivity{
             @Override
             public void run() {
                 Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                intent.putExtra("extra","choose");
                 startActivity(intent);
             }
         },3000);

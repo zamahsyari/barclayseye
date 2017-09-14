@@ -38,6 +38,7 @@ public class FinalQuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
+                intent.putExtra("extra","main");
                 getActivity().startActivity(intent);
             }
         });

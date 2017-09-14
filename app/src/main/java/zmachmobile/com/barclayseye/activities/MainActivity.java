@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
+import zmachmobile.com.barclayseye.adapters.UsageModeAdapter;
 import zmachmobile.com.barclayseye.fragments.ChooseModeFragment;
 import zmachmobile.com.barclayseye.fragments.MainFragment;
 import zmachmobile.com.barclayseye.fragments.NearestFragment;
@@ -49,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-
         mainFragment= new MainFragment();
         nearestFragment=new NearestFragment();
         travelFragment=new TravelFragment();
-        fragmentTransaction.add(R.id.fragmentContainer,mainFragment);
+        chooseModeFragment=new ChooseModeFragment();
+        fragmentTransaction.add(R.id.fragmentContainer,chooseModeFragment);
         fragmentTransaction.commit();
 
         try{
@@ -71,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
             }else if(extra.equals("travel")){
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 fragmentTransaction.replace(R.id.fragmentContainer,travelFragment);
+                fragmentTransaction.commit();
+            }else if(extra.equals("main")){
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                fragmentTransaction.replace(R.id.fragmentContainer,mainFragment);
                 fragmentTransaction.commit();
             }
         }catch (Exception e){
