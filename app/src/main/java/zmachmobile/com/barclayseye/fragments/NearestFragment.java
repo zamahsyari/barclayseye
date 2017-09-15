@@ -107,7 +107,6 @@ public class NearestFragment extends Fragment {
                     JSONObject obj=new JSONObject(json);
                     JSONArray data=obj.getJSONArray("data");
                     ButtonChild buttonChild;
-                    String atm="";
                     for(int i=0;i<data.length();i++){
                         JSONObject res=data.getJSONObject(i);
                         buttonChild=new ButtonChild(i+1,res.getString("StreetName"),Double.valueOf(Math.round(res.getDouble("distance"))),"km");

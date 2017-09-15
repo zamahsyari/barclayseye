@@ -296,6 +296,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
 
+                txtStreet.setText(voice);
+
                 mMap.clear();
                 LatLng startPoint=new LatLng(latitude,longitude);
                 mMap.addMarker(new MarkerOptions()
