@@ -26,4 +26,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("request_uber")
     Call<Object> requestUber(@Field("lat_start") Double latitudeStart, @Field("long_start") Double longitudeStart, @Field("lat_end") Double latitudeEnd, @Field("long_end") Double longitudeEnd );
+
+    @FormUrlEncoded
+    @POST("estimate_uber")
+    Call<Object> getEstimateUber(@Field("lat_start") Double latitudeStart, @Field("long_start") Double longitudeStart, @Field("lat_end") Double latitudeEnd, @Field("long_end") Double longitudeEnd );
 }

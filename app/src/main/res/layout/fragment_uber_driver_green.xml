@@ -113,12 +113,6 @@
                     android:textSize="20sp"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/colorPrimaryDarkGreen"/>
-                <TextView
-                    android:id="@+id/txtETA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pickup in 6 mins"
-                    android:textColor="#8f8f8f"/>
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
@@ -131,15 +125,4 @@
                 android:gravity="end|center_vertical"/>
         </LinearLayout>
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Loading..."
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:textColor="@color/colorPrimaryGreen"
-        android:background="#7f000060"
-        android:layout_margin="16dp"
-        android:layout_alignParentBottom="true"
-        android:padding="13dp"/>
 </RelativeLayout>

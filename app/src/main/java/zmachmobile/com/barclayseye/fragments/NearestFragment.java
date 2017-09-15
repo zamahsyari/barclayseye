@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -48,9 +49,11 @@ public class NearestFragment extends Fragment {
 
     List<ButtonChild> buttonChildList=new ArrayList<>();
     RecyclerView recyclerView;
+    ImageButton btnSpeak;
     NearestAdapter nearestAdapter;
     String voiceInput,voiceTry;
     final int REQ_CODE_SPEECH_INPUT=100;
+    String atm;
 
     public NearestFragment() {
         // Required empty public constructor
@@ -74,12 +77,20 @@ public class NearestFragment extends Fragment {
             }
         }
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+        btnSpeak=(ImageButton)view.findViewById(R.id.btnSpeak);
 
         nearestAdapter=new NearestAdapter(getActivity().getBaseContext(),buttonChildList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity().getBaseContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(nearestAdapter);
+
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doSpeak();
+            }
+        });
 
         prepareData();
         return view;
@@ -104,20 +115,7 @@ public class NearestFragment extends Fragment {
                         atm+=(i+1)+". "+res.getString("StreetName")+", "+Double.valueOf(Math.round(res.getDouble("distance")))+" km away from your location. ";
                     }
 
-                    voiceInput="Hi, we found 3 nearest ATM around you. "+atm+".Please say the number after beep.";
-                    voiceTry="We didn't get that, please try again";
-                    Config.textToSpeech = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
-                        @Override
-                        public void onInit(int status) {
-                            if(status != TextToSpeech.ERROR) {
-                                Config.textToSpeech.setLanguage(Locale.UK);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    Config.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
-                                }
-                            }
-                        }
-                    });
-                    afterSpeech();
+                    doSpeak();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -130,6 +128,23 @@ public class NearestFragment extends Fragment {
 
             }
         });
+    }
+
+    private void doSpeak() {
+        voiceInput="Hi, we found 3 nearest ATM around you. "+atm+".Please say the number after beep.";
+        voiceTry="We didn't get that, please try again";
+        Config.textToSpeech = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    Config.textToSpeech.setLanguage(Locale.UK);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Config.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                    }
+                }
+            }
+        });
+        afterSpeech();
     }
 
     public void afterSpeech(){

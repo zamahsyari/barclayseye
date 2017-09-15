@@ -10,6 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.fragments.UberDriverFragment;
@@ -18,13 +21,14 @@ import zmachmobile.com.barclayseye.fragments.UberLoadingFragment;
 
 public class UberActivity extends AppCompatActivity {
     Intent intent;
-    String extra;
+    String extra, json;
     Toolbar myToolbar;
     ActionBar actionBar;
     FragmentManager fragmentManager;
     UberFragment uberFragment;
     UberLoadingFragment uberLoadingFragment;
     UberDriverFragment uberDriverFragment;
+    String selectedStreet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
