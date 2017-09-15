@@ -261,13 +261,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     animateMap(handler,53.4746917,-2.2876713,150,27000,"Slight right to stay on The Quays");
                     animateMap(handler,53.4750935,-2.2867761,150,30000,"Turn right onto Anchorage Quay. Destination will be on the left");
 
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Intent intent=new Intent(getApplicationContext(), FinalActivity.class);
-//                            startActivity(intent);
-//                        }
-//                    },33000);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent=new Intent(getApplicationContext(), FinalActivity.class);
+                            startActivity(intent);
+                        }
+                    },33000);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
