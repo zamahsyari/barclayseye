@@ -1,4 +1,7 @@
 # BarclaysEye #
+## Screenshot Link ##
+[View on Google Drive](https://drive.google.com/open?id=0B2vq5ekJradqellTcjNpSlp1TGc)
+
 ## Project Description ##
 BarclaysEye is a mobile application that could help Barclays customer with visual impairment to reach nearest Barclays ATM or branch using AdaptiveUX.  AdaptiveUX is an adaptable user experience to guide users all the way to nearest ATM or Barclays branch using a different method based on their needs.
 ## Demo ##
