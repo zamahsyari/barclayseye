@@ -4,6 +4,7 @@ package zmachmobile.com.barclayseye.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class AnswerFragment extends Fragment {
     TextView txtOptA, txtOptB, txtOptC, txtOptD;
     Button btnNotsure;
     View view;
+    int correct;
 
     public AnswerFragment() {
         // Required empty public constructor
@@ -54,37 +56,41 @@ public class AnswerFragment extends Fragment {
         optA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gotoNext();
+                gotoNext(1);
             }
         });
         optB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gotoNext();
+                gotoNext(2);
             }
         });
         optC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gotoNext();
+                gotoNext(3);
             }
         });
         optD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gotoNext();
+                gotoNext(4);
             }
         });
         btnNotsure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gotoNext();
+                gotoNext(0);
             }
         });
         return view;
     }
 
-    private void gotoNext() {
+    private void gotoNext(int answer) {
+        if(answer == correct){
+            Config.score+=1;
+        }
+        Log.i("SCORE","skor : "+Config.score);
         Intent intent=new Intent(getActivity().getBaseContext(),QuizActivity.class);
         intent.putExtra("extra","question");
         getActivity().startActivity(intent);
@@ -103,6 +109,8 @@ public class AnswerFragment extends Fragment {
 
         txtOptD.setText(question.optD.answer);
         txtOptD.setRotation(question.optD.rotation);
+
+        correct=question.correct;
     }
 
 }

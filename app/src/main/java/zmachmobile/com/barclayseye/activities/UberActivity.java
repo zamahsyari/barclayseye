@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
+import zmachmobile.com.barclayseye.fragments.UberDriverFragment;
 import zmachmobile.com.barclayseye.fragments.UberFragment;
 import zmachmobile.com.barclayseye.fragments.UberLoadingFragment;
 
@@ -23,11 +24,20 @@ public class UberActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     UberFragment uberFragment;
     UberLoadingFragment uberLoadingFragment;
+    UberDriverFragment uberDriverFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_uber);
+        if(Config.isVoiceOnly==true){
+            setContentView(R.layout.activity_uber);
+        }else{
+            if(Config.isModeYellow==true){
+                setContentView(R.layout.activity_uber_yellow);
+            }else{
+                setContentView(R.layout.activity_uber_green);
+            }
+        }
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         try{
@@ -48,6 +58,8 @@ public class UberActivity extends AppCompatActivity {
 
         uberFragment= new UberFragment();
         uberLoadingFragment=new UberLoadingFragment();
+        uberDriverFragment=new UberDriverFragment();
+
         fragmentTransaction.add(R.id.fragmentContainer,uberFragment);
         fragmentTransaction.commit();
 
@@ -58,6 +70,10 @@ public class UberActivity extends AppCompatActivity {
             if(extra.equals("loading")){
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 fragmentTransaction.replace(R.id.fragmentContainer,uberLoadingFragment);
+                fragmentTransaction.commit();
+            }else if(extra.equals("driver")){
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                fragmentTransaction.replace(R.id.fragmentContainer,uberDriverFragment);
                 fragmentTransaction.commit();
             }
         }catch (Exception e){

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import zmachmobile.com.barclayseye.ButtonChild;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.activities.MainActivity;
 import zmachmobile.com.barclayseye.activities.QuizActivity;
@@ -31,7 +32,16 @@ public class ChooseServiceAdapter extends RecyclerView.Adapter<ChooseServiceAdap
     }
     @Override
     public ChooseServiceAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_list_two,parent,false);
+        View itemView;
+        if(Config.isVoiceOnly==true){
+            itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_list_two,parent,false);
+        }else{
+            if(Config.isModeYellow==true){
+                itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_list_two_yellow,parent,false);
+            }else{
+                itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_list_two_green,parent,false);
+            }
+        }
         return new ChooseServiceAdapter.MyViewHolder(itemView);
     }
 

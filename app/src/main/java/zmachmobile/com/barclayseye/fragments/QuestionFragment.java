@@ -38,10 +38,11 @@ public class QuestionFragment extends Fragment {
         view=inflater.inflate(R.layout.fragment_question, container, false);
         txtQuestion=view.findViewById(R.id.txtQuestion);
 
-        if(Config.currentQuestion+1 >= Config.questions.size()){
+        if(Config.currentQuestion >= Config.questions.size()){
             Intent intent=new Intent(getActivity().getBaseContext(),QuizActivity.class);
             intent.putExtra("extra","final");
             getActivity().startActivity(intent);
+            Config.currentQuestion=0;
         }else{
             Config.currentQuestion= Config.currentQuestion+1;
             Question question= Config.questions.get(Config.currentQuestion-1);

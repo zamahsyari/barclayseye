@@ -14,4 +14,7 @@ public class Config {
     public static int currentQuestion=0;
     public static TextToSpeech textToSpeech;
     public static boolean showWelcome=true;
+    public static int score  = 0;
+    public static boolean isVoiceOnly=true;
+    public static boolean isModeYellow=false;
 }

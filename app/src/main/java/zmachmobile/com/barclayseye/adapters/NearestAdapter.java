@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import zmachmobile.com.barclayseye.ButtonChild;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.activities.MainActivity;
 import zmachmobile.com.barclayseye.activities.QuizActivity;
@@ -30,7 +31,16 @@ public class NearestAdapter extends RecyclerView.Adapter<NearestAdapter.MyViewHo
     }
     @Override
     public NearestAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_list_three,parent,false);
+        View itemView;
+        if(Config.isVoiceOnly==true){
+            itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_list_three,parent,false);
+        }else{
+            if(Config.isModeYellow==true){
+                itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_list_three_yellow,parent,false);
+            }else{
+                itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_list_three_green,parent,false);
+            }
+        }
         return new NearestAdapter.MyViewHolder(itemView);
     }
 
@@ -57,11 +67,11 @@ public class NearestAdapter extends RecyclerView.Adapter<NearestAdapter.MyViewHo
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }else if(buttonChild.orderNum==3){
-                Intent intent=new Intent(context,MainActivity.class);
-                intent.putExtra("extra","travel");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
+                    Intent intent=new Intent(context,MainActivity.class);
+                    intent.putExtra("extra","travel");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
             }
         });
     }

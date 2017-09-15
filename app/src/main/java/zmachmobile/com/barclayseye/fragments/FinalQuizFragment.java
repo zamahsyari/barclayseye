@@ -37,6 +37,11 @@ public class FinalQuizFragment extends Fragment {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(Config.score <=3 ){
+                    Config.isModeYellow=false;
+                }else{
+                    Config.isModeYellow=true;
+                }
                 Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
                 intent.putExtra("extra","main");
                 getActivity().startActivity(intent);

@@ -43,7 +43,15 @@ public class UberFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
-        view=inflater.inflate(R.layout.fragment_uber, container, false);
+        if(Config.isVoiceOnly==true){
+            view=inflater.inflate(R.layout.fragment_uber, container, false);
+        }else{
+            if(Config.isModeYellow==true){
+                view=inflater.inflate(R.layout.fragment_uber_yellow, container, false);
+            }else{
+                view=inflater.inflate(R.layout.fragment_uber_green, container, false);
+            }
+        }
         btnRequest=(Button)view.findViewById(R.id.btnRequest);
         txtDestination=(TextView)view.findViewById(R.id.txtDestination);
         txtETA=(TextView)view.findViewById(R.id.txtETA);

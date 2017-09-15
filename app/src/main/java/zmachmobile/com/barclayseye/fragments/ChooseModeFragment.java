@@ -29,6 +29,7 @@ import zmachmobile.com.barclayseye.ButtonChild;
 import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.activities.MainActivity;
 import zmachmobile.com.barclayseye.R;
+import zmachmobile.com.barclayseye.activities.QuizActivity;
 import zmachmobile.com.barclayseye.adapters.UsageModeAdapter;
 
 import static android.app.Activity.RESULT_OK;
@@ -160,9 +161,10 @@ public class ChooseModeFragment extends Fragment {
                     Toast.makeText(getActivity().getBaseContext(),result.get(0),Toast.LENGTH_SHORT).show();
                     if(result.get(0).equals("one")){
                         Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
+                        intent.putExtra("extra","main");
                         getActivity().startActivity(intent);
                     }else if(result.get(0).equals("two")){
-                        Intent intent=new Intent(getActivity().getBaseContext(),MainActivity.class);
+                        Intent intent=new Intent(getActivity().getBaseContext(),QuizActivity.class);
                         getActivity().startActivity(intent);
                     }else{
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

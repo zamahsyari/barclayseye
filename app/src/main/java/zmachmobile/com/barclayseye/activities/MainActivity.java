@@ -20,7 +20,7 @@ import zmachmobile.com.barclayseye.fragments.TravelFragment;
 
 public class MainActivity extends AppCompatActivity {
     Intent intent;
-    String extra;
+    String extra, json;
     ActionBar actionBar;
     FragmentManager fragmentManager;
     MainFragment mainFragment;
@@ -32,7 +32,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        if(Config.isVoiceOnly==true){
+            setContentView(R.layout.activity_main);
+        }else{
+            if(Config.isModeYellow==true){
+                setContentView(R.layout.activity_main_yellow);
+            }else{
+                setContentView(R.layout.activity_main_green);
+            }
+        }
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
         try{
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         try{
             intent=getIntent();
             extra=intent.getStringExtra("extra");
+            json=intent.getStringExtra("json");
             Log.i("extra",extra);
             if(extra.equals("choose")){
                 actionBar.setDisplayHomeAsUpEnabled(false);
@@ -71,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
             }else if(extra.equals("travel")){
                 actionBar.setDisplayHomeAsUpEnabled(true);
+                travelFragment.addJson(json);
                 fragmentTransaction.replace(R.id.fragmentContainer,travelFragment);
                 fragmentTransaction.commit();
             }else if(extra.equals("main")){

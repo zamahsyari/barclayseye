@@ -6,7 +6,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +34,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -39,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +58,6 @@ import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.MapChild;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.adapters.MapAdapter;
-import zmachmobile.com.barclayseye.adapters.NearestAdapter;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,SensorEventListener {
 
@@ -65,20 +73,46 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private float bearing;
     Toolbar myToolbar;
     ActionBar actionBar;
-    private ImageView pullArrow;
+    private ImageView pullArrow, imgStreet;
+    private TextView txtStreet;
     private boolean isVisible=false;
+    private MarkerOptions markerStart;
+    private MarkerOptions markerStop;
+    private BitmapDescriptor iconStart;
+    private BitmapDescriptor iconStop;
+    PolylineOptions waypoints;
+    Polyline polyline;
+    private String json;
+    private ButtonChild buttonChild;
+    private double selectedDistance;
+    private String selectedStreet;
+    private TextView txtDuration, txtArrival;
 
     List<MapChild> mapChildList=new ArrayList<>();
     RecyclerView recyclerView;
     MapAdapter mapAdapter;
+    String voiceInput,voiceTry;
+    final int REQ_CODE_SPEECH_INPUT=100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        if(Config.isVoiceOnly==true){
+            setContentView(R.layout.activity_maps);
+        }else{
+            if(Config.isModeYellow==true){
+                setContentView(R.layout.activity_maps_yellow);
+            }else{
+                setContentView(R.layout.activity_maps_green);
+            }
+        }
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
         pullArrow=(ImageView)findViewById(R.id.pullArrow);
+        imgStreet=(ImageView)findViewById(R.id.imgStreet);
+        txtStreet=(TextView)findViewById(R.id.txtStreet);
+        txtDuration=(TextView)findViewById(R.id.txtDuration);
+        txtArrival=(TextView)findViewById(R.id.txtArrival);
 
         overridePendingTransition(R.anim.anim_slide_in, R.anim.anim_slide_out);
 
@@ -95,7 +129,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        london= new LatLng(53.2835727000,-0.3338594000);
+        london= new LatLng(53.463536, -2.291418);
         destination=new LatLng(52.1284000000,0.2876890000);
         sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
         sensorMagnetic=sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -129,6 +163,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+
+        Bundle extras=getIntent().getExtras();
+        String json=extras.getString("json");
+        try {
+            JSONObject jsonObject=new JSONObject(json);
+            selectedStreet = jsonObject.getString("street");
+            selectedDistance=jsonObject.getDouble("distance");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -137,21 +181,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.map_style));
         prepareData();
 
-        BitmapDescriptor iconDestination= BitmapDescriptorFactory.fromResource(R.drawable.icon_location);
-        mMap.addMarker(new MarkerOptions()
+        iconStart= BitmapDescriptorFactory.fromResource(R.drawable.marker_start);
+        iconStop= BitmapDescriptorFactory.fromResource(R.drawable.icon_location);
+        markerStop=new MarkerOptions()
                 .position(destination)
                 .title("Destination")
-                .icon(iconDestination)
-        );
-        BitmapDescriptor iconStart= BitmapDescriptorFactory.fromResource(R.drawable.marker_start);
-        mMap.addMarker(new MarkerOptions()
+                .icon(iconStop);
+        markerStart=new MarkerOptions()
                 .position(london)
-                .icon(iconStart)
-        );
+                .icon(iconStart);
+        mMap.addMarker(markerStart);
+        mMap.addMarker(markerStop);
     }
 
     private void prepareData() {
-        Call<Object> service= ApiBuilder.getService().getDirection(53.2835727000,-0.3338594000,52.1284000000,0.2876890000);
+        Call<Object> service= ApiBuilder.getService().getDirection(53.463536, -2.291418,53.4750000000,-2.2865500000);
         service.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -161,8 +205,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     JSONObject obj=new JSONObject(json);
                     JSONObject data=obj.getJSONObject("data");
                     JSONArray steps=data.getJSONArray("steps");
-                    Polyline polyline;
-                    PolylineOptions waypoints=new PolylineOptions();
+                    waypoints=new PolylineOptions();
+                    txtDuration.setText(data.getString("duration"));
+                    txtArrival.setText(data.getString("arrival_estimation"));
 
                     for(int i=0;i<steps.length();i++){
                         JSONObject step=steps.getJSONObject(i);
@@ -182,13 +227,47 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destination,10));
 
-//                    CameraPosition cameraPosition = new CameraPosition.Builder()
-//                            .target(london)
-//                            .zoom(10)
-//                            .bearing(bearing)
-//                            .tilt(0)
-//                            .build();
-//                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(london)
+                            .zoom(15)
+                            .bearing(135)
+                            .tilt(90)
+                            .build();
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                    voiceInput="We’re now heading to Barclays ATM, "+selectedStreet+" located "+Double.valueOf(Math.round(selectedDistance))+" from your location";
+                    voiceTry="We didn't get that, please try again";
+                    Config.textToSpeech = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                            if(status != TextToSpeech.ERROR) {
+                                Config.textToSpeech.setLanguage(Locale.UK);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    Config.textToSpeech.speak(voiceInput,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                                }
+                            }
+                        }
+                    });
+
+                    Handler handler=new Handler();
+                    animateMap(handler,53.4641052,-2.2919664,150,3000,"Head north toward Wharfside Way/A5081");
+                    animateMap(handler,53.4653081,-2.2913433,150,6000,"Turn right onto Wharfside Way/A5081");
+                    animateMap(handler,53.4651301,-2.289458,150,9000,"Turn left onto Sir Alex Ferguson Way");
+                    animateMap(handler,53.4664417,-2.2890327,150,12000,"Turn left onto Trafford Wharf Rd");
+                    animateMap(handler,53.4673137,-2.2924256,150,15000,"Turn right");
+                    animateMap(handler,53.4678629,-2.2919817,150,18000,"Turn left");
+                    animateMap(handler,53.4692677,-2.2960698,150,21000,"Turn right toward The Quays. Take the stairs");
+                    animateMap(handler,53.4711682,-2.2949453,150,24000,"Slight left onto The Quays. Go through 1 roundabout");
+                    animateMap(handler,53.4746917,-2.2876713,150,27000,"Slight right to stay on The Quays");
+                    animateMap(handler,53.4750935,-2.2867761,150,30000,"Turn right onto Anchorage Quay. Destination will be on the left");
+
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Intent intent=new Intent(getApplicationContext(), FinalActivity.class);
+//                            startActivity(intent);
+//                        }
+//                    },33000);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -199,6 +278,47 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+    }
+
+    private void animateMap(Handler handler, final double latitude, final double longitude, final int bearing, int duration, final String voice) {
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                Config.textToSpeech = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if(status != TextToSpeech.ERROR) {
+                            Config.textToSpeech.setLanguage(Locale.UK);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Config.textToSpeech.speak(voice,TextToSpeech.QUEUE_FLUSH,null,"CHOOSE");
+                            }
+                        }
+                    }
+                });
+
+                mMap.clear();
+                LatLng startPoint=new LatLng(latitude,longitude);
+                mMap.addMarker(new MarkerOptions()
+                        .position(startPoint)
+                        .icon(iconStart)
+                );
+                mMap.addMarker(markerStop);
+                polyline=mMap.addPolyline(waypoints);
+                polyline.setColor(Color.parseColor("#373f51"));
+                polyline.setStartCap(new RoundCap());
+                polyline.setEndCap(new RoundCap());
+                polyline.setWidth(50f);
+                polyline.setJointType(JointType.ROUND);
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(latitude,longitude))
+                        .zoom(15)
+                        .bearing(bearing)
+                        .tilt(90)
+                        .build();
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        };
+        handler.postDelayed(runnable,duration);
     }
 
     @Override

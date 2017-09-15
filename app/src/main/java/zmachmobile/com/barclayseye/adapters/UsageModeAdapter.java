@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import zmachmobile.com.barclayseye.ButtonChild;
+import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.activities.MainActivity;
 import zmachmobile.com.barclayseye.activities.QuizActivity;
@@ -45,10 +46,13 @@ public class UsageModeAdapter extends RecyclerView.Adapter<UsageModeAdapter.MyVi
                 Vibrator vb = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
                 vb.vibrate(100);
                 if(buttonChild.orderNum==1){
-                    Intent intent=new Intent(context, QuizActivity.class);
+                    Config.isVoiceOnly=true;
+                    Intent intent=new Intent(context, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("extra","main");
                     context.startActivity(intent);
                 }else if(buttonChild.orderNum==2){
+                    Config.isVoiceOnly=false;
                     Intent intent=new Intent(context, QuizActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

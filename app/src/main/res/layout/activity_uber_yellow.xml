@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e6eaed"
+    tools:context="zmachmobile.com.barclayseye.activities.UberActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/appBar"
+        android:background="@color/colorPrimaryDarkYellow"
+        android:titleTextColor="@color/colorPrimaryYellow"
+        app:titleTextColor="@color/colorPrimaryYellow"
+        app:theme="@style/AppBar"
+        android:elevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+</RelativeLayout>

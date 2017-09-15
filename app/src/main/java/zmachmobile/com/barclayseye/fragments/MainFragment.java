@@ -61,7 +61,15 @@ public class MainFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
-        view=inflater.inflate(R.layout.fragment_main, container, false);
+        if(Config.isVoiceOnly==true){
+            view=inflater.inflate(R.layout.fragment_main, container, false);
+        }else{
+            if(Config.isModeYellow==true){
+                view=inflater.inflate(R.layout.fragment_main_yellow, container, false);
+            }else{
+                view=inflater.inflate(R.layout.fragment_main_green, container, false);
+            }
+        }
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
 
         onRefresh=(SwipeRefreshLayout)view.findViewById(R.id.onRefresh);
@@ -75,7 +83,7 @@ public class MainFragment extends Fragment {
 
         prepareData();
 
-        voiceInput="Which Barclays service do you want to go to? 1. ATM. 2. Branch. Please say the number after beep.";
+        voiceInput="Hello, which Barclays service do you want to go to? 1. ATM. 2. Branch. Please say the number after beep.";
         voiceTry="We didn't get that, please try again";
         Config.textToSpeech = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
             @Override

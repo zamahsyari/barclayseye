@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import zmachmobile.com.barclayseye.Config;
 import zmachmobile.com.barclayseye.R;
 import zmachmobile.com.barclayseye.activities.FinalActivity;
+import zmachmobile.com.barclayseye.activities.UberActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +27,16 @@ public class UberLoadingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view;
+        if(Config.isVoiceOnly==true){
+            view=inflater.inflate(R.layout.fragment_uber_loading, container, false);
+        }else{
+            if(Config.isModeYellow==true){
+                view=inflater.inflate(R.layout.fragment_uber_loading_yellow, container, false);
+            }else{
+                view=inflater.inflate(R.layout.fragment_uber_loading_green, container, false);
+            }
+        }
         try{
             Config.textToSpeech.shutdown();
         }catch (Exception e){
@@ -35,11 +46,12 @@ public class UberLoadingFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(getActivity().getBaseContext(),FinalActivity.class);
+                Intent intent=new Intent(getActivity().getBaseContext(),UberActivity.class);
+                intent.putExtra("extra","driver");
                 getActivity().startActivity(intent);
             }
         },5000);
-        return inflater.inflate(R.layout.fragment_uber_loading, container, false);
+        return view;
     }
 
 }
